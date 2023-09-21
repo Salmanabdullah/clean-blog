@@ -21,8 +21,9 @@ app.use(express.static("public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
-  res.render("index");
+app.get("/", async (req, res) => {
+  const blogposts = await BlogPost.find({});
+  res.render("index", { blogposts });
 });
 
 app.get("/about", (req, res) => {
@@ -41,8 +42,10 @@ app.get("/posts/new", (req, res) => {
   res.render("create");
 });
 
-app.post("/posts/store", async(req, res) => {
-  await BlogPost.create(req.body).then(res.redirect("/"));
+app.post("/posts/store", async (req, res) => {
+  await BlogPost.create(req.body);
+  console.log("Post submitted");
+  res.redirect("/");
 });
 
 app.listen(process.env.PORT, () => {
