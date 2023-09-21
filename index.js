@@ -41,9 +41,8 @@ app.get("/posts/new", (req, res) => {
   res.render("create");
 });
 
-app.post("/posts/store", (req, res) => {
-  console.log(req.body);
-  res.redirect("/");
+app.post("/posts/store", async(req, res) => {
+  await BlogPost.create(req.body).then(res.redirect("/"));
 });
 
 app.listen(process.env.PORT, () => {
