@@ -21,6 +21,7 @@ app.use(express.static("public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//homepage
 app.get("/", async (req, res) => {
   const blogposts = await BlogPost.find({});
   res.render("index", { blogposts });
@@ -36,6 +37,12 @@ app.get("/contact", (req, res) => {
 
 app.get("/post", (req, res) => {
   res.render("post");
+});
+
+//single post
+app.get("/post/:id", async (req, res) => {
+  const blogpost = await BlogPost.findById(req.params.id);
+  res.render("post", { blogpost });
 });
 
 app.get("/posts/new", (req, res) => {
