@@ -37,7 +37,7 @@
               <!-- To make this form functional, sign up at-->
               <!-- https://startbootstrap.com/solution/contact-forms-->
               <!-- to get an API token!-->
-              <form action="/posts/store" method="post">
+              <form action="/posts/store" method="post" enctype="multipart/form-data">
                 <div class="form-floating">
                   <input
                     class="form-control"
@@ -58,6 +58,16 @@
                     style="height: 12rem"
                   ></textarea>
                   <label for="message">Description</label>
+                </div>
+                <div class="form-floating">
+                  <input
+                    class="form-control"
+                    type="file" 
+                    id="image"
+                    name="image"
+                    placeholder="No file chosen"
+                  ></input>
+                  
                 </div>
                 <br />
                 <!-- Submit success message-->

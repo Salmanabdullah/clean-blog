@@ -7,6 +7,7 @@ const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const BlogPost = require("./models/BlogPost");
+const fileUpload = require("express-fileupload");
 
 dotenv.config();
 
@@ -17,9 +18,11 @@ mongoose
   .catch(() => console.log("not connected"));
 
 app.set("view engine", "ejs");
+
 app.use(express.static("public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(fileUpload());
 
 //homepage
 app.get("/", async (req, res) => {
@@ -50,7 +53,9 @@ app.get("/posts/new", (req, res) => {
 });
 
 app.post("/posts/store", async (req, res) => {
-  await BlogPost.create(req.body);
+  let image= req.files.image;
+  image.mv(path.resolve(__dirname,'public/img',image.name))
+  await BlogPost.create({...req.body,image:'/img/'+image.name});
   console.log("Post submitted");
   res.redirect("/");
 });
