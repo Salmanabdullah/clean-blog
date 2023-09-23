@@ -19,6 +19,7 @@ mongoose
 
 app.set("view engine", "ejs");
 
+//middlewares
 app.use(express.static("public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -52,6 +53,7 @@ app.get("/posts/new", (req, res) => {
   res.render("create");
 });
 
+//create new post, saving image to a specific dir.
 app.post("/posts/store", async (req, res) => {
   let image= req.files.image;
   image.mv(path.resolve(__dirname,'public/img',image.name))
