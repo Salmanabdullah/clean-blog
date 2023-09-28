@@ -6,8 +6,12 @@ const ejs = require("ejs");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const BlogPost = require("./models/BlogPost");
 const fileUpload = require("express-fileupload");
+const newPostController = require("./Controllers/newPost");
+const homeController = require("./Controllers/home");
+const getPostController = require("./Controllers/getPost");
+const storePostController = require("./Controllers/storePost");
+//const validateMiddleware = require("./Middlewares/validationMiddleware");
 
 dotenv.config();
 
@@ -19,17 +23,25 @@ mongoose
 
 app.set("view engine", "ejs");
 
+const valid = (req, res, next) => {
+  if (req.files == null || req.body.title == null || req.body.title == null) {
+    console.log("validated");
+    return res.redirect("/posts/new");
+  }
+  next();
+};
+
 //middlewares
 app.use(express.static("public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileUpload());
 
+
+
+app.use("/posts/store", valid);
 //homepage
-app.get("/", async (req, res) => {
-  const blogposts = await BlogPost.find({});
-  res.render("index", { blogposts });
-});
+app.get("/", homeController);
 
 app.get("/about", (req, res) => {
   res.render("about");
@@ -44,23 +56,12 @@ app.get("/post", (req, res) => {
 });
 
 //single post
-app.get("/post/:id", async (req, res) => {
-  const blogpost = await BlogPost.findById(req.params.id);
-  res.render("post", { blogpost });
-});
+app.get("/post/:id", getPostController);
 
-app.get("/posts/new", (req, res) => {
-  res.render("create");
-});
+app.get("/posts/new", newPostController);
 
-//create new post, saving image to a specific dir.
-app.post("/posts/store", async (req, res) => {
-  let image= req.files.image;
-  image.mv(path.resolve(__dirname,'public/img',image.name))
-  await BlogPost.create({...req.body,image:'/img/'+image.name});
-  console.log("Post submitted");
-  res.redirect("/");
-});
+//create new post and saving image to a specific dir.
+app.post("/posts/store", storePostController);
 
 app.listen(process.env.PORT, () => {
   console.log("App is listening....");
