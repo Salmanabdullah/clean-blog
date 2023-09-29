@@ -13,6 +13,7 @@ const getPostController = require("./Controllers/getPost");
 const storePostController = require("./Controllers/storePost");
 //const validateMiddleware = require("./Middlewares/validationMiddleware");
 const newUserController = require("./Controllers/newUser");
+const storeUserController = require('./Controllers/storeUser')
 
 dotenv.config();
 
@@ -54,6 +55,8 @@ app.get("/posts/new", newPostController);
 
 //create new post and saving image to a specific dir.
 app.post("/posts/store", storePostController);
+
+app.post('/users/register',storeUserController)
 
 app.listen(process.env.PORT, () => {
   console.log("App is listening....");
