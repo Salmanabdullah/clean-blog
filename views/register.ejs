@@ -13,8 +13,8 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
           <div class="col-md-10 col-lg-8 col-xl-7">
             <div class="page-heading">
-              <h1>Create New Post</h1>
-              <span class="subheading">Have questions? I have answers.</span>
+              <h1>Register a new account</h1>
+              <span class="subheading">Go ahead</span>
             </div>
           </div>
         </div>
@@ -36,39 +36,29 @@
               <!-- To make this form functional, sign up at-->
               <!-- https://startbootstrap.com/solution/contact-forms-->
               <!-- to get an API token!-->
-              <form action="/posts/store" method="post" enctype="multipart/form-data">
+              <form action="/users/register" method="post" enctype="multipart/form-data">
                 <div class="form-floating">
                   <input
                     class="form-control"
-                    id="title"
-                    name="title"
+                    id="username"
+                    name="username"
                     type="text"
                     required
-                    placeholder="Title"
+                    placeholder="User Name"
                   />
-                  <label for="name">Title</label>
+                  <label for="name">Username</label>
                 </div>
-                <div class="form-floating">
-                  <textarea
-                    class="form-control"
-                    id="body"
-                    name="body"
-                    placeholder="Description"
-                    rows="5"
-                    required
-                    style="height: 12rem"
-                  ></textarea>
-                  <label for="message">Description</label>
-                </div>
+                
                 <div class="form-floating">
                   <input
                     class="form-control"
-                    type="file" 
-                    id="image"
-                    name="image"
+                    type="password" 
+                    id="password"
+                    name="password"
                     required
-                    placeholder="No file chosen"
-                  ></input>
+                    placeholder="Password"
+                  />
+                  <label for="password">Password</label>
                   
                 </div>
                 <br />
@@ -101,7 +91,7 @@
                   id="submitButton"
                   type="submit"
                 >
-                  Send
+                  Register
                 </button>
               </form>
             </div>

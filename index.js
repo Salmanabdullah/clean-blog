@@ -12,6 +12,7 @@ const homeController = require("./Controllers/home");
 const getPostController = require("./Controllers/getPost");
 const storePostController = require("./Controllers/storePost");
 //const validateMiddleware = require("./Middlewares/validationMiddleware");
+const newUserController = require("./Controllers/newUser");
 
 dotenv.config();
 
@@ -23,23 +24,13 @@ mongoose
 
 app.set("view engine", "ejs");
 
-const valid = (req, res, next) => {
-  if (req.files == null || req.body.title == null || req.body.title == null) {
-    console.log("validated");
-    return res.redirect("/posts/new");
-  }
-  next();
-};
-
 //middlewares
 app.use(express.static("public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileUpload());
+//app.use("/posts/store", validateMiddleware);
 
-
-
-app.use("/posts/store", valid);
 //homepage
 app.get("/", homeController);
 
@@ -54,6 +45,7 @@ app.get("/contact", (req, res) => {
 app.get("/post", (req, res) => {
   res.render("post");
 });
+app.get("/auth/register", newUserController);
 
 //single post
 app.get("/post/:id", getPostController);
