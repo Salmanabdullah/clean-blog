@@ -9,7 +9,7 @@ module.exports = (req, res) => {
       bcrypt
         .compare(password, user.password)
         .then(() => {
-          console.log("success");
+          req.session.userId=user._id
           res.redirect("/");
         })
         .catch(() => {

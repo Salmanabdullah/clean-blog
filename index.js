@@ -7,15 +7,16 @@ const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const fileUpload = require("express-fileupload");
+const expressSession = require("express-session");
 const newPostController = require("./Controllers/newPost");
 const homeController = require("./Controllers/home");
 const getPostController = require("./Controllers/getPost");
 const storePostController = require("./Controllers/storePost");
 //const validateMiddleware = require("./Middlewares/validationMiddleware");
 const newUserController = require("./Controllers/newUser");
-const storeUserController = require('./Controllers/storeUser')
-const loginController = require('./Controllers/login')
-const loginUserController = require('./Controllers/loginUser')
+const storeUserController = require("./Controllers/storeUser");
+const loginController = require("./Controllers/login");
+const loginUserController = require("./Controllers/loginUser");
 
 dotenv.config();
 
@@ -32,6 +33,13 @@ app.use(express.static("public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileUpload());
+app.use(
+  expressSession({
+    secret: "amar valobasha",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 //app.use("/posts/store", validateMiddleware);
 
 //homepage
@@ -58,8 +66,8 @@ app.get("/auth/login", loginController);
 //create new post and saving image to a specific dir.
 app.post("/posts/store", storePostController);
 
-app.post('/users/register',storeUserController)
-app.post('/users/login',loginUserController)
+app.post("/users/register", storeUserController);
+app.post("/users/login", loginUserController);
 
 app.listen(process.env.PORT, () => {
   console.log("App is listening....");
