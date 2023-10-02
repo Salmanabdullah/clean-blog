@@ -42,10 +42,19 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+global.loggedIn = null;
+app.use("*", (req, res, next) => {
+  loggedIn = req.session.userId;
+  next();
+});
+
+
 //app.use("/posts/store", validateMiddleware);
 
 //homepage
 app.get("/", homeController);
+
 
 app.get("/about", (req, res) => {
   res.render("about");
