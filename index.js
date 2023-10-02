@@ -90,6 +90,8 @@ app.post(
   loginUserController
 );
 
+//Page Not Found
+app.use((req,res)=> res.render('notFound'))
 
 app.listen(process.env.PORT, () => {
   console.log("App is listening....");
