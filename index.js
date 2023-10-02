@@ -17,6 +17,7 @@ const newUserController = require("./Controllers/newUser");
 const storeUserController = require("./Controllers/storeUser");
 const loginController = require("./Controllers/login");
 const loginUserController = require("./Controllers/loginUser");
+const authMiddleware = require('./Middlewares/authMiddleware')
 
 dotenv.config();
 
@@ -61,10 +62,10 @@ app.get("/auth/register", newUserController);
 //single post
 app.get("/post/:id", getPostController);
 
-app.get("/posts/new", newPostController);
+app.get("/posts/new",authMiddleware, newPostController);
 app.get("/auth/login", loginController);
 //create new post and saving image to a specific dir.
-app.post("/posts/store", storePostController);
+app.post("/posts/store",authMiddleware, storePostController);
 
 app.post("/users/register", storeUserController);
 app.post("/users/login", loginUserController);

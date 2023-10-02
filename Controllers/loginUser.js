@@ -18,7 +18,7 @@ module.exports = (req, res) => {
         });
     })
     .catch(() => {
-      console.log(req.body);
+      console.log('Login Failed');
       res.redirect("/auth/login");
     });
 };
