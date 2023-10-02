@@ -17,7 +17,8 @@ const newUserController = require("./Controllers/newUser");
 const storeUserController = require("./Controllers/storeUser");
 const loginController = require("./Controllers/login");
 const loginUserController = require("./Controllers/loginUser");
-const authMiddleware = require('./Middlewares/authMiddleware')
+const authMiddleware = require("./Middlewares/authMiddleware");
+const redirectIfAuthenticatedMiddleware = require("./Middlewares/redirectIfAuthenticatedMiddleware");
 
 dotenv.config();
 
@@ -57,18 +58,26 @@ app.get("/contact", (req, res) => {
 app.get("/post", (req, res) => {
   res.render("post");
 });
-app.get("/auth/register", newUserController);
+app.get("/auth/register", redirectIfAuthenticatedMiddleware, newUserController);
 
 //single post
 app.get("/post/:id", getPostController);
 
-app.get("/posts/new",authMiddleware, newPostController);
-app.get("/auth/login", loginController);
+app.get("/posts/new", authMiddleware, newPostController);
+app.get("/auth/login", redirectIfAuthenticatedMiddleware, loginController);
 //create new post and saving image to a specific dir.
-app.post("/posts/store",authMiddleware, storePostController);
+app.post("/posts/store", authMiddleware, storePostController);
 
-app.post("/users/register", storeUserController);
-app.post("/users/login", loginUserController);
+app.post(
+  "/users/register",
+  redirectIfAuthenticatedMiddleware,
+  storeUserController
+);
+app.post(
+  "/users/login",
+  redirectIfAuthenticatedMiddleware,
+  loginUserController
+);
 
 app.listen(process.env.PORT, () => {
   console.log("App is listening....");
