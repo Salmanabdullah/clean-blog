@@ -19,6 +19,7 @@ const loginController = require("./Controllers/login");
 const loginUserController = require("./Controllers/loginUser");
 const authMiddleware = require("./Middlewares/authMiddleware");
 const redirectIfAuthenticatedMiddleware = require("./Middlewares/redirectIfAuthenticatedMiddleware");
+const logoutController = require('./Controllers/logout')
 
 dotenv.config();
 
@@ -76,6 +77,7 @@ app.get("/posts/new", authMiddleware, newPostController);
 app.get("/auth/login", redirectIfAuthenticatedMiddleware, loginController);
 //create new post and saving image to a specific dir.
 app.post("/posts/store", authMiddleware, storePostController);
+app.get('/auth/logout',logoutController)
 
 app.post(
   "/users/register",
